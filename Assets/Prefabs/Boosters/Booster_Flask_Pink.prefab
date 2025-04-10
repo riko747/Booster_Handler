@@ -15,6 +15,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: b40df55bf24101b4c8e059ffdd633990, type: 3}
+    - target: {fileID: 3543825756848345602, guid: 42cb53491ac4f3643bf4ac6bc579dcf0, type: 3}
+      propertyPath: id
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6572209502652683249, guid: 42cb53491ac4f3643bf4ac6bc579dcf0, type: 3}
       propertyPath: m_Name
       value: Booster_Flask_Pink
