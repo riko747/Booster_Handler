@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8931288421471645371
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2016719654950815833, guid: 42cb53491ac4f3643bf4ac6bc579dcf0, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016719654950815833, guid: 42cb53491ac4f3643bf4ac6bc579dcf0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 48b31048ddb2f7947a49039c9f02e0d1, type: 3}
+    - target: {fileID: 6572209502652683249, guid: 42cb53491ac4f3643bf4ac6bc579dcf0, type: 3}
+      propertyPath: m_Name
+      value: Booster_Flask_Blue
+      objectReference: {fileID: 0}
+    - target: {fileID: 7509804287600810379, guid: 42cb53491ac4f3643bf4ac6bc579dcf0, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7509804287600810379, guid: 42cb53491ac4f3643bf4ac6bc579dcf0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7509804287600810379, guid: 42cb53491ac4f3643bf4ac6bc579dcf0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7509804287600810379, guid: 42cb53491ac4f3643bf4ac6bc579dcf0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7509804287600810379, guid: 42cb53491ac4f3643bf4ac6bc579dcf0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7509804287600810379, guid: 42cb53491ac4f3643bf4ac6bc579dcf0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 42cb53491ac4f3643bf4ac6bc579dcf0, type: 3}
