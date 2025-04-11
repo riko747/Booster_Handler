@@ -1,19 +1,24 @@
  using System.Collections.Generic;
+ using Source.ButtonHandlers;
  using Source.Data;
  using UnityEngine;
- using UnityEngine.Serialization;
- using UnityEngine.UI;
 
  namespace Source
 {
     public class UIManager : MonoBehaviour
     {
         [SerializeField] private Transform boostersGroup;
-        [SerializeField] private GameObject okButton;
+        [SerializeField] private OkButtonHandler okButton;
+        [SerializeField] private List<InventoryCell> inventoryCells;
+        [SerializeField] private RectTransform sidePanelHidePoint;
+        [SerializeField] private RectTransform sidePanelVisibilityPoint;
         
         private readonly List<Booster> _boosters = new();
-        
-        public static UIManager Instance {get; private set;}
+        public static UIManager Instance { get; private set; }
+
+        public List<InventoryCell> InventoryCells => inventoryCells;
+        public RectTransform SidePanelHidePoint => sidePanelHidePoint;
+        public RectTransform SidePanelVisibilityPoint => sidePanelVisibilityPoint;
 
         private void Awake()
         {
@@ -42,7 +47,6 @@
 
         public List<Booster> GetBoosters() => _boosters;
         
-        public void EnableOKButton() => okButton.SetActive(true); 
-        public void DisableOKButton() => okButton.SetActive(false);
+        public OkButtonHandler GetOkButton() => okButton;
     }
 }

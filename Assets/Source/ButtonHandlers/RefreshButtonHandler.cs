@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
+using Source.Animation;
 using Source.Data;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,12 +16,9 @@ namespace Source.ButtonHandlers
         private readonly List<Transform> _boostersTransforms = new();
         private readonly Random _random = new();
         
-        private void Start()
+        protected override void Start()
         {
-            uiButton = GetComponent<Button>();
-
-            if (uiButton != null)
-                uiButton.onClick.AddListener(OnButtonClicked);
+           base.Start();
 
             foreach (Transform boosterInGroup in boostersGroupParent)
             {
@@ -26,35 +26,63 @@ namespace Source.ButtonHandlers
             }
         }
         
-        protected override void OnButtonClicked()
+        protected override async UniTask OnButtonClicked()
+        {
+            await HideOldBoosters();
+            await ShowNewBoosters();
+        }
+
+        private async Task HideOldBoosters()
+        {
+            uiButton.interactable = false;
+            var graphicsToAnimateFadeOut = new List<Graphic>();
+
+            foreach (Transform boosterInGroup in boostersGroupParent)
+            {
+                if (!boosterInGroup.gameObject.activeInHierarchy) continue;
+                
+                var booster = boosterInGroup.GetComponent<Booster>();
+                booster.DisableInteraction();
+                booster.DisableHighLight();
+                graphicsToAnimateFadeOut.AddRange(booster.CollectImagesToAnimate());
+            }
+            
+            graphicsToAnimateFadeOut.AddRange(UIManager.Instance.GetOkButton().CollectImagesToAnimate());
+            await DoTweenManager.Instance.PlayFadeOutAnimation(graphicsToAnimateFadeOut);
+            
+            foreach (Transform boosterInGroup in boostersGroupParent)
+            {
+                var booster = boosterInGroup.GetComponent<Booster>();
+                    booster.DisableBooster();
+            }
+        }
+
+        private async Task ShowNewBoosters()
         {
             HashSet<int> boosterIds = new();
-            
-            UIManager.Instance.DisableOKButton();
+            var graphicsToAnimateFadeIn = new List<Graphic>();
             
             while (boosterIds.Count < 3)
             {
                 boosterIds.Add(_random.Next(0, _boostersTransforms.Count));
             }
-
-            foreach (Transform boosterInGroup in boostersGroupParent)
-            {
-                var booster = boosterInGroup.GetComponent<Booster>();
-                booster.DisableHighlightAnimation();
-                booster.DisableBoosterHighlight();
-                boosterInGroup.gameObject.SetActive(false);
-            }
-
+            
             foreach (var boosterId in boosterIds)
             {
-                boostersGroupParent.GetChild(boosterId).gameObject.SetActive(true);
+                var currentBooster = boostersGroupParent.GetChild(boosterId).GetComponent<Booster>();
+                currentBooster.gameObject.SetActive(true);
+                currentBooster.EnableInteraction();
+                currentBooster.EnableBooster();
+                graphicsToAnimateFadeIn.AddRange(currentBooster.CollectImagesToAnimate());
             }
+            await DoTweenManager.Instance.PlayFadeInAnimation(graphicsToAnimateFadeIn);
+            uiButton.interactable = true;
         }
 
-        private void OnDestroy()
+        public override List<Graphic> CollectImagesToAnimate()
         {
-            if (uiButton != null)
-                uiButton.onClick.RemoveListener(OnButtonClicked);
+            //No OP
+            return null;
         }
     }
 }
