@@ -1,57 +1,60 @@
 using System.Collections.Generic;
-using System.Linq;
 using Source.Data;
-using Source.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = System.Random;
 
 namespace Source.ButtonHandlers
 {
     public class RefreshButtonHandler : ButtonHandler
     {
-        [SerializeField] private BoosterData boosters;
         [SerializeField] private Transform boostersGroupParent;
+        
+        private readonly List<Transform> _boostersTransforms = new();
+        private readonly Random _random = new();
         
         private void Start()
         {
-            UIButton = GetComponent<Button>();
+            uiButton = GetComponent<Button>();
 
-            if (UIButton != null)
-                UIButton.onClick.AddListener(OnButtonClicked);
+            if (uiButton != null)
+                uiButton.onClick.AddListener(OnButtonClicked);
+
+            foreach (Transform boosterInGroup in boostersGroupParent)
+            {
+                _boostersTransforms.Add(boosterInGroup);
+            }
         }
         
         protected override void OnButtonClicked()
         {
-            var boostersToShow = new List<Booster>();
-            var boostersOnScreen = boostersGroupParent.GetComponentsInChildren<Booster>().ToList();
-
-            foreach (var booster in boostersOnScreen)
-            {
-                booster.ShowSelf(false);
-            }
+            HashSet<int> boosterIds = new();
             
-            for (var i = 0; i != 3; i++)
+            UIManager.Instance.DisableOKButton();
+            
+            while (boosterIds.Count < 3)
             {
-                boostersToShow.Add(boosters.boosters.FirstOrDefault(booster => booster.ID == RandomizeUtilities.GetRandomID(0, boosters.boosters.Count + 1)));
+                boosterIds.Add(_random.Next(0, _boostersTransforms.Count));
             }
 
-            foreach (var booster in boostersToShow)
+            foreach (Transform boosterInGroup in boostersGroupParent)
             {
-                if (boostersOnScreen.Contains(booster))
-                {
-                    booster.ShowSelf(true);
-                }
-                else
-                {
-                    Instantiate(booster, boostersGroupParent);
-                }
+                var booster = boosterInGroup.GetComponent<Booster>();
+                booster.DisableHighlightAnimation();
+                booster.DisableBoosterHighlight();
+                boosterInGroup.gameObject.SetActive(false);
+            }
+
+            foreach (var boosterId in boosterIds)
+            {
+                boostersGroupParent.GetChild(boosterId).gameObject.SetActive(true);
             }
         }
 
         private void OnDestroy()
         {
-            if (UIButton != null)
-                UIButton.onClick.RemoveListener(OnButtonClicked);
+            if (uiButton != null)
+                uiButton.onClick.RemoveListener(OnButtonClicked);
         }
     }
 }

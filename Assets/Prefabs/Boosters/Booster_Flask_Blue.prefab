@@ -19,6 +19,14 @@ PrefabInstance:
       propertyPath: id
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3543825756848345602, guid: 42cb53491ac4f3643bf4ac6bc579dcf0, type: 3}
+      propertyPath: uiButton
+      value: 
+      objectReference: {fileID: 5630391744918196344}
+    - target: {fileID: 3543825756848345602, guid: 42cb53491ac4f3643bf4ac6bc579dcf0, type: 3}
+      propertyPath: highlight
+      value: 
+      objectReference: {fileID: 5129660179761057529}
     - target: {fileID: 6572209502652683249, guid: 42cb53491ac4f3643bf4ac6bc579dcf0, type: 3}
       propertyPath: m_Name
       value: Booster_Flask_Blue
@@ -49,3 +57,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42cb53491ac4f3643bf4ac6bc579dcf0, type: 3}
+--- !u!1 &5129660179761057529 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4378195647753330754, guid: 42cb53491ac4f3643bf4ac6bc579dcf0, type: 3}
+  m_PrefabInstance: {fileID: 8931288421471645371}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5630391744918196344 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3877990748964290243, guid: 42cb53491ac4f3643bf4ac6bc579dcf0, type: 3}
+  m_PrefabInstance: {fileID: 8931288421471645371}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
