@@ -4,7 +4,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Source.Animation
+namespace Source.Managers
 {
     public class DoTweenManager : MonoBehaviour
     {
@@ -68,7 +68,7 @@ namespace Source.Animation
             await _animationSequence.AsyncWaitForCompletion();
         }
 
-        public async UniTask PlayMoveToPointWithResizeAnimation(RectTransform startTransform, RectTransform endTransform, Ease ease = Ease.Linear)
+        public async UniTask PlayMoveToPointWithResizeInParentAnimation(RectTransform startTransform, RectTransform endTransform, Ease ease = Ease.Linear)
         {
             _animationSequence.Kill();
             _animationSequence = DOTween.Sequence();

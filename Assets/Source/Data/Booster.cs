@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Source.ButtonHandlers;
+using Source.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,7 +41,7 @@ namespace Source.Data
         {
             ChosenBooster = true;
             
-            foreach (var booster in UIManager.Instance.GetBoosters().Where(booster => booster.isActiveAndEnabled && booster != this))
+            foreach (var booster in UIManager.Instance.GetBoostersFromShuffle().Where(booster => booster.isActiveAndEnabled && booster != this))
             {
                 booster.ChosenBooster = false;
                 booster.ChangeAnimatorState(false);
@@ -48,7 +50,26 @@ namespace Source.Data
             
             EnableHighlight();
             ChangeAnimatorState(true);
-            await UIManager.Instance.GetOkButton().Show();
+
+            var button = UIManager.Instance.GetOkButton();
+            if (button is OkButtonHandler okButtonHandler)
+            {
+                await okButtonHandler.Show();
+            }
+        }
+
+        public async UniTask MoveBoosterToInventory(RectTransform inventoryCellToMove)
+        {
+            await EnableCheckMark();
+            ChangeIgnoreLayoutState(true);
+            transform.parent = inventoryCellToMove;
+
+            await UniTask.WaitForSeconds(0.5f);
+            DisableHighLight();
+            await DisableCheckMark();
+            
+            await DoTweenManager.Instance.PlayMoveToPointWithResizeInParentAnimation(RectTransform, inventoryCellToMove,
+                Ease.OutCubic);
         }
 
         public override List<Graphic> CollectImagesToAnimate()
@@ -67,21 +88,26 @@ namespace Source.Data
             layoutElement.ignoreLayout = ignore;
         }
         
-        public void EnableCheckMark()
+        private void ChangeVisibilityByAlpha(Graphic graphic, float alpha)
         {
-            Color colorWithNullAlpha = CheckMarkImage.color;
-            colorWithNullAlpha.a = 0f;
-            CheckMarkImage.color = colorWithNullAlpha;
-            
+            Color colorWithNullAlpha = graphic.color;
+            colorWithNullAlpha.a = alpha;
+            graphic.color = colorWithNullAlpha;
+        }
+        
+        public async UniTask EnableCheckMark()
+        {
+            ChangeVisibilityByAlpha(CheckMarkImage, 0);
             checkMark.SetActive(true);
+            
+            await DoTweenManager.Instance.PlayFadeInAnimation(CheckMarkImage, Ease.InCirc);
         }
 
-        public void DisableCheckMark()
+        public async UniTask DisableCheckMark()
         {
-            Color colorWithNullAlpha = CheckMarkImage.color;
-            colorWithNullAlpha.a = 1f;
-            CheckMarkImage.color = colorWithNullAlpha;
+            await DoTweenManager.Instance.PlayFadeOutAnimation(CheckMarkImage, Ease.InCirc);
             
+            ChangeVisibilityByAlpha(CheckMarkImage, 1);
             checkMark.SetActive(false);
         }
 
@@ -101,7 +127,7 @@ namespace Source.Data
             highlightAnimator.enabled = true;
         }
 
-        public void DisableHighLight()
+        public void  DisableHighLight()
         {
             highlight.SetActive(false);
             highlightAnimator.enabled = false;

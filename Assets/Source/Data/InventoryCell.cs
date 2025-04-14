@@ -4,14 +4,14 @@ namespace Source.Data
 {
     public class InventoryCell : MonoBehaviour
     {
-        [SerializeField] private bool locked;
         [SerializeField] private GameObject lockedIcon;
-        
-        public bool Locked => locked;
-        
-        private void Start()
+
+        public bool Locked { get; private set; }
+
+        public void Lock(bool lockCell)
         {
-            lockedIcon.SetActive(locked);
+            lockedIcon.SetActive(lockCell);
+            Locked = lockCell;
         }
     }
 }

@@ -1,24 +1,19 @@
- using System.Collections.Generic;
- using Source.ButtonHandlers;
- using Source.Data;
- using UnityEngine;
+using System.Collections.Generic;
+using Source.ButtonHandlers;
+using Source.Data;
+using UnityEngine;
 
- namespace Source
+namespace Source.Managers
 {
     public class UIManager : MonoBehaviour
     {
         [SerializeField] private Transform boostersGroup;
-        [SerializeField] private OkButtonHandler okButton;
-        [SerializeField] private List<InventoryCell> inventoryCells;
-        [SerializeField] private RectTransform sidePanelHidePoint;
-        [SerializeField] private RectTransform sidePanelVisibilityPoint;
+        [SerializeField] private ButtonHandler okButton;
+        [SerializeField] private ButtonHandler refreshButton;
+        [SerializeField] private InventoryManager inventoryManager;
         
         private readonly List<Booster> _boosters = new();
         public static UIManager Instance { get; private set; }
-
-        public List<InventoryCell> InventoryCells => inventoryCells;
-        public RectTransform SidePanelHidePoint => sidePanelHidePoint;
-        public RectTransform SidePanelVisibilityPoint => sidePanelVisibilityPoint;
 
         private void Awake()
         {
@@ -45,8 +40,10 @@
             }
         }
 
-        public List<Booster> GetBoosters() => _boosters;
+        public List<Booster> GetBoostersFromShuffle() => _boosters;
+        public List<InventoryCell> GetInventoryCells() => inventoryManager.InventoryCells;
         
-        public OkButtonHandler GetOkButton() => okButton;
+        public ButtonHandler GetOkButton() => okButton;
+        public ButtonHandler GetRefreshButton() => refreshButton;
     }
 }

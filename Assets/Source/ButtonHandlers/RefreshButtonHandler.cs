@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using Source.Animation;
 using Source.Data;
+using Source.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = System.Random;
@@ -81,8 +81,8 @@ namespace Source.ButtonHandlers
 
         public override List<Graphic> CollectImagesToAnimate()
         {
-            //No OP
-            return null;
+            var graphicsToAnimate = new List<Graphic> { uiButton.GetComponent<Image>() };
+            return graphicsToAnimate;
         }
     }
 }
