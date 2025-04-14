@@ -80,7 +80,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e7c31c4b36a046448d5ec038cd7bc09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  locked: 1
   lockedIcon: {fileID: 8836127636393737988}
 --- !u!1 &7375171005824363808
 GameObject:
@@ -93,6 +92,7 @@ GameObject:
   - component: {fileID: 7417284698156427420}
   - component: {fileID: 5155273468182348507}
   - component: {fileID: 5916094338816011171}
+  - component: {fileID: 4581205537666274320}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -159,6 +159,17 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.3
+--- !u!210 &4581205537666274320
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7375171005824363808}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &8836127636393737988
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,6 +181,7 @@ GameObject:
   - component: {fileID: 8177836457720333898}
   - component: {fileID: 6785134222114528766}
   - component: {fileID: 3137886535541922432}
+  - component: {fileID: 4074035833866352708}
   m_Layer: 0
   m_Name: LockedIcon
   m_TagString: Untagged
@@ -219,7 +231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -235,3 +247,14 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!210 &4074035833866352708
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8836127636393737988}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0

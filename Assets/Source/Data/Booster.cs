@@ -17,31 +17,29 @@ namespace Source.Data
         [SerializeField] private GameObject checkMark;
         [SerializeField] private Animator highlightAnimator;
         [SerializeField] private LayoutElement layoutElement;
+        [SerializeField] private ParticleSystem starsParticles;
         
         private RectTransform _rectTransform;
-
-        public RectTransform RectTransform
-        {
-            get => _rectTransform;
-            set => _rectTransform = value;
-        }
+        private Image _checkMarkImage;
 
         public bool ChosenBooster { get; private set; }
-
-        public Image CheckMarkImage {get; private set;}
 
         protected override void Awake()
         {
             base.Awake();
-            CheckMarkImage = checkMark.GetComponent<Image>();
-            RectTransform = GetComponent<RectTransform>();
+            _checkMarkImage = checkMark.GetComponent<Image>();
+            _rectTransform = GetComponent<RectTransform>();
         }
+
+        private void OnEnable() => starsParticles.gameObject.SetActive(false);
 
         protected override async UniTask OnButtonClicked()
         {
+            starsParticles.gameObject.SetActive(true);
+            starsParticles.Play();
             ChosenBooster = true;
             
-            foreach (var booster in UIManager.Instance.GetBoostersFromShuffle().Where(booster => booster.isActiveAndEnabled && booster != this))
+            foreach (var booster in UIManager.Instance.BoosterSelectorManager.GetAllBoostersFromSelector().Where(booster => booster.isActiveAndEnabled && booster != this))
             {
                 booster.ChosenBooster = false;
                 booster.ChangeAnimatorState(false);
@@ -51,7 +49,7 @@ namespace Source.Data
             EnableHighlight();
             ChangeAnimatorState(true);
 
-            var button = UIManager.Instance.GetOkButton();
+            var button = UIManager.Instance.OkButton;
             if (button is OkButtonHandler okButtonHandler)
             {
                 await okButtonHandler.Show();
@@ -60,32 +58,39 @@ namespace Source.Data
 
         public async UniTask MoveBoosterToInventory(RectTransform inventoryCellToMove)
         {
+            layoutElement.ignoreLayout = true;
+            transform.SetParent(transform.root);
+            var centerPosition = new Vector2(0, 0);
+            
+            await DoTweenManager.Instance.PlayMoveToPointAnimation(_rectTransform, centerPosition);
+            
             await EnableCheckMark();
-            ChangeIgnoreLayoutState(true);
-            transform.parent = inventoryCellToMove;
+            
+            if (UIManager.Instance.InventoryManager.SidePanelIsHidden 
+                && UIManager.Instance.SidePanelButton is PanelVisibilityButtonHandler sidePanelButtonHandler)
+            {
+                await sidePanelButtonHandler.SwitchPanelState();
+            }
 
             await UniTask.WaitForSeconds(0.5f);
             DisableHighLight();
             await DisableCheckMark();
             
-            await DoTweenManager.Instance.PlayMoveToPointWithResizeInParentAnimation(RectTransform, inventoryCellToMove,
+            await DoTweenManager.Instance.PlayMoveToPointWithResizeInParentAnimation(_rectTransform, inventoryCellToMove,
                 Ease.OutCubic);
+            
+            transform.SetParent(inventoryCellToMove);
         }
 
         public override List<Graphic> CollectImagesToAnimate()
         {
-            var imagesToAnimate = new List<Graphic> { ButtonImage };
-            
-            imagesToAnimate.Add(highlight.GetComponent<Image>());
+            var imagesToAnimate = new List<Graphic>
+            {
+                ButtonImage,
+                highlight.GetComponent<Image>()
+            };
 
             return imagesToAnimate;
-        }
-
-        #region BoosterView
-
-        public void ChangeIgnoreLayoutState(bool ignore)
-        {
-            layoutElement.ignoreLayout = ignore;
         }
         
         private void ChangeVisibilityByAlpha(Graphic graphic, float alpha)
@@ -94,20 +99,20 @@ namespace Source.Data
             colorWithNullAlpha.a = alpha;
             graphic.color = colorWithNullAlpha;
         }
-        
-        public async UniTask EnableCheckMark()
+
+        private async UniTask EnableCheckMark()
         {
-            ChangeVisibilityByAlpha(CheckMarkImage, 0);
+            ChangeVisibilityByAlpha(_checkMarkImage, 0);
             checkMark.SetActive(true);
             
-            await DoTweenManager.Instance.PlayFadeInAnimation(CheckMarkImage, Ease.InCirc);
+            await DoTweenManager.Instance.PlayFadeInAnimation(_checkMarkImage, Ease.InCirc);
         }
 
-        public async UniTask DisableCheckMark()
+        private async UniTask DisableCheckMark()
         {
-            await DoTweenManager.Instance.PlayFadeOutAnimation(CheckMarkImage, Ease.InCirc);
+            await DoTweenManager.Instance.PlayFadeOutAnimation(_checkMarkImage, Ease.InCirc);
             
-            ChangeVisibilityByAlpha(CheckMarkImage, 1);
+            ChangeVisibilityByAlpha(_checkMarkImage, 1);
             checkMark.SetActive(false);
         }
 
@@ -121,7 +126,7 @@ namespace Source.Data
             gameObject.SetActive(false);
         }
 
-        public void EnableHighlight()
+        private void EnableHighlight()
         {
             highlight.SetActive(true);
             highlightAnimator.enabled = true;
@@ -140,7 +145,5 @@ namespace Source.Data
                 highlightAnimator.SetBool(_pressed, pressed);
             }
         }
-        
-        #endregion
     }
 }

@@ -47,7 +47,7 @@ namespace Source.ButtonHandlers
                 graphicsToAnimateFadeOut.AddRange(booster.CollectImagesToAnimate());
             }
             
-            graphicsToAnimateFadeOut.AddRange(UIManager.Instance.GetOkButton().CollectImagesToAnimate());
+            graphicsToAnimateFadeOut.AddRange(UIManager.Instance.OkButton.CollectImagesToAnimate());
             await DoTweenManager.Instance.PlayFadeOutAnimation(graphicsToAnimateFadeOut);
             
             foreach (Transform boosterInGroup in boostersGroupParent)

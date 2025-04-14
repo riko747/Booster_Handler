@@ -8,29 +8,24 @@ namespace Source.ButtonHandlers
 {
     public class PanelVisibilityButtonHandler : ButtonHandler
     {
-        private bool _panelIsHidden;
-        private InventoryManager _inventoryManager;
-
-        protected override void Start()
-        {
-            base.Start();
-            
-            _inventoryManager = transform.parent.GetComponent<InventoryManager>();
-        }
-
         protected override async UniTask OnButtonClicked()
         {
-            if (!_panelIsHidden)
+            await SwitchPanelState();
+        }
+
+        public async UniTask  SwitchPanelState()
+        {
+            if (!UIManager.Instance.InventoryManager.SidePanelIsHidden)
             {
-                await DoTweenManager.Instance.PlayMoveToPointAnimation(_inventoryManager.SidePanelRoot,
-                    _inventoryManager.InventoryHidePoint, Ease.Flash);
-                _panelIsHidden = true;
+                await DoTweenManager.Instance.PlayMoveToAnchoredPosition(UIManager.Instance.InventoryManager.SidePanelRoot,
+                    UIManager.Instance.InventoryManager.InventoryHidePoint, Ease.Flash);
+                UIManager.Instance.InventoryManager.SidePanelIsHidden = true;
             }
             else
             {
-                await DoTweenManager.Instance.PlayMoveToPointAnimation(_inventoryManager.SidePanelRoot,
-                    _inventoryManager.InventoryVisibilityPoint, Ease.Flash);
-                _panelIsHidden = false;
+                await DoTweenManager.Instance.PlayMoveToAnchoredPosition(UIManager.Instance.InventoryManager.SidePanelRoot,
+                    UIManager.Instance.InventoryManager.InventoryVisibilityPoint, Ease.Flash);
+                UIManager.Instance.InventoryManager.SidePanelIsHidden = false;
             }
         }
 

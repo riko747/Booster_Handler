@@ -67,6 +67,15 @@ namespace Source.Managers
             _animationSequence.Play();
             await _animationSequence.AsyncWaitForCompletion();
         }
+        
+        public async UniTask PlayMoveToPointAnimation(RectTransform startTransform, Vector2 endVector, Ease ease = Ease.Linear)
+        {
+            _animationSequence.Kill();
+            _animationSequence = DOTween.Sequence();
+            _animationSequence.Join(startTransform.DOLocalMove(endVector, 1f)).SetEase(ease);
+            _animationSequence.Play();
+            await _animationSequence.AsyncWaitForCompletion();
+        }
 
         public async UniTask PlayMoveToPointWithResizeInParentAnimation(RectTransform startTransform, RectTransform endTransform, Ease ease = Ease.Linear)
         {
@@ -78,7 +87,7 @@ namespace Source.Managers
             await _animationSequence.AsyncWaitForCompletion();
         }
         
-        public async UniTask PlayMoveToPointAnimation(RectTransform startTransform, RectTransform endTransform, Ease ease = Ease.Linear)
+        public async UniTask PlayMoveToAnchoredPosition(RectTransform startTransform, RectTransform endTransform, Ease ease = Ease.Linear)
         {
             _animationSequence.Kill();
             _animationSequence = DOTween.Sequence();
