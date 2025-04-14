@@ -408,11 +408,11 @@ RectTransform:
   m_Father: {fileID: 2079876633}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -111, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 264.00006, y: -0.000014050271}
   m_SizeDelta: {x: 100, y: 150}
-  m_Pivot: {x: 0, y: 0.5}
+  m_Pivot: {x: 5, y: 0.5}
 --- !u!114 &195716278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1172,7 +1172,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 251, y: 0}
+  m_AnchoredPosition: {x: -4, y: 0}
   m_SizeDelta: {x: 250, y: 864}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!224 &1590679007 stripped
@@ -2109,7 +2109,7 @@ MonoBehaviour:
   - {fileID: 358258006}
   - {fileID: 302561809}
   sidePanelHidePoint: {fileID: 66664208}
-  sidePanelVisibilityPoint: {fileID: 195716277}
+  sidePanelVisibilityPoint: {fileID: 1530641153}
 --- !u!224 &7821067666222862641 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5858451279499897305, guid: ed0f012e5c240d845a67e92865bc876e, type: 3}
